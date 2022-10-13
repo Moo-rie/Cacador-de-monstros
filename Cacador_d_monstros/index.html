@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Caçador de Monstros</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+</head>
+<body>
+    <div class="music">
+        <audio src="https://www.youtube.com/watch?v=RYIagS9U7fE">
+    </div>
+
+    <div id="app">
+        <div class="panel scores">
+            <div class="score">
+                <h1>O Caçador</h1>
+                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/47815e6f-7383-4dd2-ab06-48af328b4a6e/dcos6jn-3de6fb8d-21d0-45c9-81d6-690bec849f4f.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzQ3ODE1ZTZmLTczODMtNGRkMi1hYjA2LTQ4YWYzMjhiNGE2ZVwvZGNvczZqbi0zZGU2ZmI4ZC0yMWQwLTQ1YzktODFkNi02OTBiZWM4NDlmNGYuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.LNOVHY0yhAZxquaJhP53UH3LUjWXiyQf6kdGGRY9aWI" class="hunta">
+                <div class="life-bar">
+                    <div class="life" 
+                        :class="{danger: playerLife < 20}" 
+                        :style="{width: playerLife + '%'}"></div>
+                </div>
+                <div>{{ playerLife }}/100</div>
+                <div class="mana-bar">
+                    <div class="mana"
+                        :style="{width: playerMana + '%'}"></div>
+                </div>
+                <div>{{ playerMana }}/100</div>
+            </div>
+            <div class="score">
+                <h1>Rathian</h1>
+                <img class="monsta" src="https://i.pinimg.com/originals/c3/34/ed/c334edebe774005c105baef4c475f8ec.gif">
+            <!--<img class="monsta" src="https://i.pinimg.com/originals/81/16/db/8116db860cd6fa0ba8368233ce134d1a.gif"> -->
+                <div class="life-bar">
+                    <div class="life"
+                        :class="{danger: monsterLife < 20}" 
+                        :style="{width: monsterLife + '%'}">
+                    </div>
+                </div>
+                <div>{{ monsterLife }}/100</div>
+            </div>
+        </div>
+        <div v-if="hasResult" class="panel result">
+            <div v-if="monsterLife ==0" class="win">Você derrotou o monstro!</div>
+            <div v-else class="lose">Você foi derrotado!</div>
+        </div>
+        <div class="panel buttons">
+            <template v-if="running">
+                <button @click="attack(false)" 
+                    class="btn attack">Golpear</button>
+                <button @click="attack(true)" 
+                    class="btn spell">Golpe Assinatura</button>
+                <button @click="healAndHurt"
+                    class="btn heal">Curar</button>
+                <button @click="running = false" 
+                    class="btn give-up">Correr</button>
+            </template>
+            <button v-else @click="startGame" 
+                class="btn new-game">Iniciar Jogo</button>
+        </div>
+        <div v-if="logs.length"
+            class="panel logs">
+            <ul>
+                <li v-for="log in logs"
+                    :class="log.cls"
+                    class="log"> {{ log.text }}</li>
+            </ul>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
