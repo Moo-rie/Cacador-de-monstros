@@ -23,7 +23,7 @@ new Vue({
         attack(especial) {
             this.hurt('monsterLife', 5, 10, especial, 'O caçador', 'Rathian', 'player')
             if(this.monsterLife > 0) {
-                this.hurt('playerLife', 7, 12, false, 'Rathian', 'O caçador', 'monster')
+                this.hurt('playerLife', 10, 15, false, 'Rathian', 'O caçador', 'monster')
             }
         },
         hurt(prop, min, max, especial, source, target, cls) {
