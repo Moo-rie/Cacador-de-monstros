@@ -23,7 +23,7 @@ new Vue({
         attack(especial) {
             this.hurt('monsterLife', 5, 10, especial, 'O caçador', 'Rathian', 'player')
             if(this.monsterLife > 0) {
-                this.hurt('playerLife', 10, 15, false, 'Rathian', 'O caçador', 'monster')
+                this.hurt('playerLife', 7, 12, false, 'Rathian', 'O caçador', 'monster')
             }
         },
         hurt(prop, min, max, especial, source, target, cls) {
@@ -37,17 +37,37 @@ new Vue({
             this.hurt('playerLife', 7, 12, false, 'Rathian', 'Jogador', 'monster')
         },
         heal(min, max) {
-            if(this.playerMana > 0){
+            if(this.playerMana >= 10){
                 this.playerMana = Math.min(this.playerMana - 10, 100)
             }
-            if(this.playerMana === 0)
+            if(this.playerMana === 0 || this.playerMana < 0)
             {
                 this.registerLog(`O caçador não tem mais energia para se recuperar!`, 'player')
-            }else{
+                if(this.playerMana < 0){
+                    this.playerMana = 0
+                }
+            }else if(this.playerMana >= 10){
                 const heal = this.getRandom(min, max)
                 this.playerLife = Math.min(this.playerLife + heal, 100)
                 this.registerLog(`O caçador recuperou um total de ${heal} de Vida.`, 'player')
             }
+        },
+        medite(min, max) {
+            // if(this.playerMana < 100){
+            //     this.playerMana = Math.min(this.playerMana + 20, 100)
+            // }
+            if(this.playerMana === 100)
+            {
+                this.registerLog(`O caçador já se recuperou o suficiente!`, 'player')
+            }else{
+                const medite = this.getRandom(min, max)
+                this.playerMana = Math.min(this.playerMana + medite, 100)
+                this.registerLog(`O caçador recuperou um total de ${medite} de Energia.`, 'player')
+            }
+        },
+        mediteAndHurt(){
+            this.medite(10, 15)
+            this.hurt('playerLife', 7, 12, false, 'Rathian', 'Jogador', 'monster')
         },
         getRandom(min, max) {
             const value = Math.random() * (max - min) + min
