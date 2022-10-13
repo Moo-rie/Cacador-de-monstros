@@ -37,9 +37,6 @@ new Vue({
             this.hurt('playerLife', 7, 12, false, 'Rathian', 'Jogador', 'monster')
         },
         heal(min, max) {
-            if(this.playerMana >= 10){
-                this.playerMana = Math.min(this.playerMana - 10, 100)
-            }
             if(this.playerMana === 0 || this.playerMana < 0)
             {
                 this.registerLog(`O caçador não tem mais energia para se recuperar!`, 'player')
@@ -50,6 +47,9 @@ new Vue({
                 const heal = this.getRandom(min, max)
                 this.playerLife = Math.min(this.playerLife + heal, 100)
                 this.registerLog(`O caçador recuperou um total de ${heal} de Vida.`, 'player')
+            }
+            if(this.playerMana >= 10){
+                this.playerMana = Math.min(this.playerMana - 10, 100)
             }
         },
         medite(min, max) {
